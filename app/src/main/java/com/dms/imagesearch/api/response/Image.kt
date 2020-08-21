@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class Image (
     @SerializedName("id")
     @Expose
-    var id: String? = null,
+    var id: String,
 
     @SerializedName("title")
     @Expose
@@ -46,7 +46,7 @@ data class Image (
 
     @SerializedName("bandwidth")
     @Expose
-    var bandwidth: Int? = null,
+    var bandwidth:Long? = null,
 
     @SerializedName("vote")
     @Expose

@@ -1,5 +1,6 @@
 package com.dms.imagesearch.domain
 
+import com.dms.imagesearch.api.response.Image
 import com.dms.imagesearch.api.response.ImgData
 import com.dms.imagesearch.api.response.ImgSearchService
 import com.dms.imagesearch.core.mapper.ImagesMapper
@@ -32,7 +33,7 @@ interface ImagesRepository {
     /**
      * Gets fresh images from web.
      */
-    suspend fun getImgFromWebservice(query: String): List<ImgData>
+    suspend fun getImgFromWebservice(query: String): List<Image>
 }
 
 @Singleton
@@ -55,12 +56,12 @@ class DefaultImagesRepository @Inject constructor(
     }
     .flowOn(Dispatchers.IO)
 
-    override suspend fun getImgFromWebservice(query: String): List<ImgData> {
+    override suspend fun getImgFromWebservice(query: String): List<Image> {
         return try {
-            imgService.getImgDetails(query).body()?.imgData!!
+            imgService.getImgDetails(query).body()?.imgData?.get(0)?.images!!
         } catch (e: Exception) {
             println("Error while fetching response: $e.message")
-            responseError<ImgData>()
+            responseError<Image>()
         }
     }
 }
