@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class ImgData (
     @SerializedName("id")
     @Expose
-    var id: String? = null,
+    var id: String,
 
     @SerializedName("title")
     @Expose
