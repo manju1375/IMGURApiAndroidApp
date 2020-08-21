@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">IMGURApiAndroidApp</string>
+    <!-- Empty -->
+    <string name="no_results">No Results</string>
 </resources>

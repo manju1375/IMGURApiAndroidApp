@@ -61,4 +61,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$liveDataKtx"
     testImplementation "androidx.arch.core:core-testing:$archTestingVersion"
 
+    // Support Libraries
+    implementation "androidx.appcompat:appcompat:$supportVersion"
+    implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
+    implementation "androidx.cardview:cardview:$cardViewVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
+
 }

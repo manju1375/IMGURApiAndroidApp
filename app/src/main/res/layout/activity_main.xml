@@ -4,15 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="81dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
+
+    <com.dms.imagesearch.ui.widget.CompleteRecyclerView
+        android:id="@+id/imagesList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp"
+        tools:listitem="@layout/row_image_listitem" />
 
+    <!-- Progress and empty views -->
+    <include
+        layout="@layout/progress_layout"
+        tools:visibility="invisible" />
+
+    <include
+        layout="@layout/empty_layout"
+        tools:visibility="invisible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,4 +7,30 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!--region News Article -->
+    <style name="ImageItem" />
+
+    <style name="ImageItem.View">
+        <item name="android:layout_marginTop">@dimen/normal_padding</item>
+        <item name="android:layout_marginStart">@dimen/card_margin</item>
+        <item name="android:layout_marginEnd">@dimen/card_margin</item>
+        <item name="android:layout_marginBottom">@dimen/card_elevation</item>
+    </style>
+
+    <style name="ImageItem.Image">
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <!-- Empty Layout -->
+    <style name="EmptyLayoutTitle">
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/activity_vertical_margin</item>
+        <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
+    </style>
+
 </resources>
