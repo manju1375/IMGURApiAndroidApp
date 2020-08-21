@@ -3,7 +3,7 @@ package com.dms.imagesearch.api.response
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class Datum (
+data class ImgData (
     @SerializedName("id")
     @Expose
     var id: String? = null,

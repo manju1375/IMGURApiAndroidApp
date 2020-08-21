@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class ImageResponse (
     @SerializedName("data")
     @Expose
-    var data: List<Datum>? = null,
+    var imgData: List<ImgData>? = null,
 
     @SerializedName("success")
     @Expose
