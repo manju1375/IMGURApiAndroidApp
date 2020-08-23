@@ -1,10 +1,15 @@
 package com.dms.imagesearch.ui.activity
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.widget.AutoCompleteTextView
 import androidx.activity.viewModels
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dms.imagesearch.R
+import com.dms.imagesearch.core.utils.hideKeyboard
 import com.dms.imagesearch.core.utils.observeNotNull
 import com.dms.imagesearch.core.utils.toast
 import com.dms.imagesearch.ui.ViewState
@@ -41,7 +46,7 @@ class ImagesListActivity : BaseActivity() {
         initializeRecycler()
 
         // Update the UI on state change
-     loadData()
+
     }
 
 
@@ -51,12 +56,12 @@ class ImagesListActivity : BaseActivity() {
         imagesList.apply {
             setHasFixedSize(true)
             layoutManager = gridLayoutManager
-            addOnScrollListener(InfiniteScrollListener({ loadData() }, gridLayoutManager))
+            //addOnScrollListener(InfiniteScrollListener({ loadData() }, gridLayoutManager))
         }
     }
 
-    private fun loadData() {
-        imageListViewModel.getImages("hollywood").observeNotNull(this) { state ->
+    private fun loadData(query:String) {
+        imageListViewModel.getImages(query).observeNotNull(this) { state ->
             when (state) {
                 is ViewState.Success -> adapter.submitList(state.data)
                 is ViewState.Loading -> imagesList.showLoading()
@@ -64,6 +69,50 @@ class ImagesListActivity : BaseActivity() {
             }
         }
 
+    }
+
+    /*override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.search_menu, menu)
+
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView = searchItem?.actionView as SearchView
+
+        searchView.queryHint = getString(R.string.search)
+        searchView.findViewById<AutoCompleteTextView>(R.id.search_src_text).threshold = 1
+
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                hideKeyboard()
+                return false
+            }
+            override fun onQueryTextChange(query: String?): Boolean {
+                return true
+            }
+        })
+        super.onCreateOptionsMenu(menu)
+    }*/
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.search_menu, menu)
+
+        val searchItem = menu?.findItem(R.id.action_search)
+        val searchView = searchItem?.actionView as SearchView
+
+        searchView.queryHint = getString(R.string.search)
+        searchView.findViewById<AutoCompleteTextView>(R.id.search_src_text).threshold = 1
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                loadData(query!!)
+                hideKeyboard()
+                return false
+            }
+            override fun onQueryTextChange(query: String?): Boolean {
+                return true
+            }
+        })
+        return super.onCreateOptionsMenu(menu!!)
     }
 
 }

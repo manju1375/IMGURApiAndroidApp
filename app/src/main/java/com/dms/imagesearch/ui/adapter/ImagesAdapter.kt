@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.row_image_listitem.view.*
 
 
 /**
- * The Images adapter to show the news in a list.
+ * The Images adapter to show the images in a list.
  */
 class ImagesAdapter(
     private val listener: (ImagesAdapterEvent) -> Unit
