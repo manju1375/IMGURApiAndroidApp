@@ -28,7 +28,7 @@ interface ImagesRepository {
      * fresh  images from web and save into database
      * if that fails then continues showing cached data.
      */
-    fun getImages(query:String): Flow<ViewState<List<ImageDbItem>>>
+    fun getImages(query: String): Flow<ViewState<List<ImageDbItem>>>
 
     /**
      * Gets fresh images from web.
@@ -54,21 +54,30 @@ class DefaultImagesRepository @Inject constructor(
         val cachedNews = imagesDao.getImages()
         emitAll(cachedNews.map { ViewState.success(it) })
     }
-    .flowOn(Dispatchers.IO)
+        .flowOn(Dispatchers.IO)
 
     override suspend fun getImgFromWebservice(query: String): List<Image> {
-        return try {
-            imgService.getImgDetails(query).body()?.imgData?.get(0)?.images!!
+        var imagesRes = mutableListOf<Image>()
+        try {
+            val imgData = imgService.getImgDetails(query).body()?.imgData
+            for (idx in imgData!!.indices) {
+                for (jdx in imgData?.get(idx)?.images!!.indices) {
+                    imagesRes.add(imgData[idx].images!![jdx])
+                }
+            }
         } catch (e: Exception) {
             println("Error while fetching response: $e.message")
             responseError<Image>()
         }
+        return imagesRes
     }
-}
 
-@Module
-@InstallIn(ApplicationComponent::class)
-interface ImagesRepositoryModule {
-    /* Exposes the concrete implementation for the interface */
-    @Binds fun it(it: DefaultImagesRepository): ImagesRepository
+
+    @Module
+    @InstallIn(ApplicationComponent::class)
+    interface ImagesRepositoryModule {
+        /* Exposes the concrete implementation for the interface */
+        @Binds
+        fun it(it: DefaultImagesRepository): ImagesRepository
+    }
 }

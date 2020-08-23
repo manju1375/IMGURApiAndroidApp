@@ -56,7 +56,7 @@ class ImagesListActivity : BaseActivity() {
     }
 
     private fun loadData() {
-        imageListViewModel.getImages("vanilla").observeNotNull(this) { state ->
+        imageListViewModel.getImages("hollywood").observeNotNull(this) { state ->
             when (state) {
                 is ViewState.Success -> adapter.submitList(state.data)
                 is ViewState.Loading -> imagesList.showLoading()

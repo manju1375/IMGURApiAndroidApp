@@ -15,7 +15,7 @@ import com.dms.imagesearch.ui.ViewState
 class ImagesViewModel @ViewModelInject constructor(
     private val imagesRepository: ImagesRepository
 ) : ViewModel() {
-    var query= "android"
+    var query= "hollywood"
     private val imagesDb: LiveData<ViewState<List<ImageDbItem>>> = imagesRepository.getImages(query).asLiveData()
 
     /**
