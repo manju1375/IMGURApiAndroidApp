@@ -14,6 +14,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -23,12 +24,18 @@ import javax.inject.Singleton
  */
 interface ImagesRepository {
 
+
+
+
     /**
      * Gets the cached  image from database and tries to get
      * fresh  images from web and save into database
      * if that fails then continues showing cached data.
      */
     fun getImages(query: String): Flow<ViewState<List<ImageDbItem>>>
+
+
+     fun getImageItem(imageId: String): Flow<ImageDbItem>
 
     /**
      * Gets fresh images from web.
@@ -55,6 +62,11 @@ class DefaultImagesRepository @Inject constructor(
         emitAll(cachedNews.map { ViewState.success(it) })
     }
         .flowOn(Dispatchers.IO)
+
+    override fun getImageItem(imageId: String): Flow<ImageDbItem> = flow {
+        emit(imagesDao.getImageById(imageId))
+    }.flowOn(Dispatchers.IO)
+    
 
     override suspend fun getImgFromWebservice(query: String): List<Image> {
         var imagesRes = mutableListOf<Image>()

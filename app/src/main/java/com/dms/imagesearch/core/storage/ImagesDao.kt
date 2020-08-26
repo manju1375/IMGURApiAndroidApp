@@ -31,4 +31,13 @@ interface ImagesDao {
      */
     @Query("SELECT * FROM images_list")
     fun getImages(): Flow<List<ImageDbItem>>
+
+    /**
+     * Get all the images from table
+     */
+    @Query("SELECT * FROM images_list WHERE id =:imgId")
+    fun getImageById(imgId:String): ImageDbItem
+
+    @Update
+    fun updateImageItem(vararg imageDbItem: ImageDbItem)
 }

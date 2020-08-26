@@ -3,4 +3,5 @@
     <!-- Empty -->
     <string name="no_results">No Results</string>
     <string name="search">Seach</string>
+    <string name="submit">Submit</string>
 </resources>
