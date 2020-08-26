@@ -1,7 +1,6 @@
 package com.dms.imagesearch.ui.adapter
 
 
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -10,7 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.dms.imagesearch.R
 import com.dms.imagesearch.core.storage.entity.ImageDbItem
+import com.dms.imagesearch.core.utils.RecyclerViewClickListener
 import com.dms.imagesearch.core.utils.inflate
+import com.dms.imagesearch.ui.activity.ImagesListActivity
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.row_image_listitem.view.*
 
 
@@ -18,7 +20,7 @@ import kotlinx.android.synthetic.main.row_image_listitem.view.*
  * The Images adapter to show the images in a list.
  */
 class ImagesAdapter(
-    private val listener: (ImagesAdapterEvent) -> Unit
+    private val listener: RecyclerViewClickListener
 ) : ListAdapter<ImageDbItem, ImagesAdapter.ImageViewHolder>(DIFF_CALLBACK) {
 
     var itemWidth:Int=0
@@ -32,7 +34,7 @@ class ImagesAdapter(
      * Bind the view with the data
      */
     override fun onBindViewHolder(imageViewHolder: ImageViewHolder, position: Int) =
-        imageViewHolder.bind(getItem(position), listener)
+        imageViewHolder.bind(getItem(position), listener,position)
 
     /**
      * View Holder Pattern
@@ -42,7 +44,7 @@ class ImagesAdapter(
         /**
          * Binds the UI with the data and handles clicks
          */
-        fun bind(imageDbItem: ImageDbItem, listener: (ImagesAdapterEvent) -> Unit) =
+        fun bind(imageDbItem: ImageDbItem, listener: RecyclerViewClickListener,position: Int) =
             with(itemView) {
                 val visbility = imageDbItem?.link?.isEmpty()
 
@@ -55,7 +57,7 @@ class ImagesAdapter(
                 } else {
                     imageViewLayout.visibility = View.GONE
                 }
-                setOnClickListener { listener(ImagesAdapterEvent.ClickEvent) }
+                setOnClickListener {listener.recyclerViewListClicked(position) }
             }
     }
 

@@ -9,10 +9,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dms.imagesearch.R
-import com.dms.imagesearch.core.utils.hideKeyboard
-import com.dms.imagesearch.core.utils.observeNotNull
-import com.dms.imagesearch.core.utils.saveSelectedImg
-import com.dms.imagesearch.core.utils.toast
+import com.dms.imagesearch.core.utils.*
 import com.dms.imagesearch.ui.ViewState
 import com.dms.imagesearch.ui.adapter.ImagesAdapter
 import com.dms.imagesearch.ui.base.BaseActivity
@@ -22,11 +19,11 @@ import kotlinx.android.synthetic.main.empty_layout.*
 import kotlinx.android.synthetic.main.progress_layout.*
 
 
-class ImagesListActivity : BaseActivity() {
+class ImagesListActivity : BaseActivity(),RecyclerViewClickListener {
 
     private val imageListViewModel: ImagesViewModel by viewModels()
 
-    val adapter = ImagesAdapter { saveSelectedItem() }
+    val adapter = ImagesAdapter(this)
 
     /**
      * Starting point of the activity
@@ -94,8 +91,10 @@ class ImagesListActivity : BaseActivity() {
         return super.onCreateOptionsMenu(menu!!)
     }
 
-    private fun saveSelectedItem(){
-        saveSelectedImg(adapter.currentList[0].id)
+
+
+    override fun recyclerViewListClicked( position: Int) {
+        saveSelectedImg(adapter.currentList[position].id)
         startActivity(Intent(this,ImageDetailsActivity::class.java))
     }
 
