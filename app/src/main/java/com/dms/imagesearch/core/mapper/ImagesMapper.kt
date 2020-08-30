@@ -15,7 +15,7 @@ interface ImagesMapper : Mapper<ImageDbItem, Image> {
     override fun Image.toStorage(): ImageDbItem {
         return ImageDbItem(
             id = id,
-            comment = null,
+            comment = "",
             link = link
         )
     }

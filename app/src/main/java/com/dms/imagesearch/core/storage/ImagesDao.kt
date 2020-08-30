@@ -17,6 +17,10 @@ interface ImagesDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertImages(articles: List<ImageDbItem>): List<Long>
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertImage(imageItem: ImageDbItem)
+
+
     @Query("DELETE FROM images_list")
     fun clearAllImages()
 
@@ -38,6 +42,7 @@ interface ImagesDao {
     @Query("SELECT * FROM images_list WHERE id =:imgId")
     fun getImageById(imgId:String): ImageDbItem
 
-    @Update
-    fun updateImageItem(vararg imageDbItem: ImageDbItem)
+    @Query("UPDATE images_list SET comment= :cmnt WHERE id = :id")
+    fun updateImageItem(cmnt:String,id:String)
+
 }

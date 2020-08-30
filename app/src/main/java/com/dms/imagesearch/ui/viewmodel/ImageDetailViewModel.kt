@@ -7,6 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.dms.imagesearch.core.storage.entity.ImageDbItem
 import com.dms.imagesearch.domain.ImagesRepository
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 
 class ImageDetailViewModel @ViewModelInject constructor(private val mImagesRepository: ImagesRepository) :
     ViewModel() {
@@ -18,5 +21,18 @@ class ImageDetailViewModel @ViewModelInject constructor(private val mImagesRepos
     fun getSelectedImageItem(id: String?): LiveData<ImageDbItem> {
         return mImagesRepository.getImageItem(id!!).asLiveData()
     }
+
+    fun updateImageWithComments(comment: String, id: String) {
+        GlobalScope.launch {
+            mImagesRepository.updateImageWithComments(comment, id)
+        }
+    }
+
+    fun insertImageItem(imgItm: ImageDbItem) {
+        GlobalScope.launch {
+            mImagesRepository.insertImageItem(imgItm)
+        }
+    }
+
 
 }

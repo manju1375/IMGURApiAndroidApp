@@ -6,24 +6,31 @@ import android.view.Menu
 import android.widget.AutoCompleteTextView
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dms.imagesearch.R
+import com.dms.imagesearch.api.response.Image
 import com.dms.imagesearch.core.utils.*
 import com.dms.imagesearch.ui.ViewState
 import com.dms.imagesearch.ui.adapter.ImagesAdapter
+import com.dms.imagesearch.ui.adapter.ImagesListAdapter
 import com.dms.imagesearch.ui.base.BaseActivity
 import com.dms.imagesearch.ui.viewmodel.ImagesViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.empty_layout.*
 import kotlinx.android.synthetic.main.progress_layout.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
-class ImagesListActivity : BaseActivity(),RecyclerViewClickListener {
+class ImagesListActivity : BaseActivity(), RecyclerViewClickListener {
 
     private val imageListViewModel: ImagesViewModel by viewModels()
 
     val adapter = ImagesAdapter(this)
+
+    val imgAdapter = ImagesListAdapter(this)
 
     /**
      * Starting point of the activity
@@ -36,8 +43,7 @@ class ImagesListActivity : BaseActivity(),RecyclerViewClickListener {
         imagesList.setEmptyView(empty_view)
         imagesList.setProgressView(progress_view)
 
-
-        imagesList.adapter = adapter
+        imagesList.adapter = imgAdapter
         imagesList.layoutManager = GridLayoutManager(this, 2)
 
         initializeRecycler()
@@ -57,16 +63,17 @@ class ImagesListActivity : BaseActivity(),RecyclerViewClickListener {
         }
     }
 
-    private fun loadData(query: String) {
-        imageListViewModel.getImages(query).observeNotNull(this) { state ->
-            when (state) {
-                is ViewState.Success -> adapter.submitList(state.data)
-                is ViewState.Loading -> imagesList.showLoading()
-                is ViewState.Error -> toast("Something went wrong ¯\\_(ツ)_/¯ => ${state.message}")
-            }
-        }
+    private fun loadImgData(query: String) {
 
+            imageListViewModel.getImagesFrmCloud(query).observeNotNull(this) { state ->
+                when (state) {
+                    is ViewState.Success -> imgAdapter.submitList(state.data)
+                    is ViewState.Loading -> imagesList.showLoading()
+                    is ViewState.Error -> toast("Something went wrong ¯\\_(ツ)_/¯ => ${state.message}")
+                }
+            }
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.search_menu, menu)
@@ -79,7 +86,7 @@ class ImagesListActivity : BaseActivity(),RecyclerViewClickListener {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                loadData(query!!)
+                loadImgData(query!!)
                 hideKeyboard()
                 return false
             }
@@ -92,10 +99,9 @@ class ImagesListActivity : BaseActivity(),RecyclerViewClickListener {
     }
 
 
-
-    override fun recyclerViewListClicked( position: Int) {
-        saveSelectedImg(adapter.currentList[position].id)
-        startActivity(Intent(this,ImageDetailsActivity::class.java))
+    override fun recyclerViewListClicked(position: Int) {
+        saveSelectedImg(imgAdapter.currentList[position].id)
+        startActivity(Intent(this, ImageDetailsActivity::class.java))
     }
 
 }

@@ -7,15 +7,16 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivImg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="@dimen/image_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
     </androidx.appcompat.widget.AppCompatImageView>
 
     <EditText
+        android:id="@+id/etComments"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/btnSubmit"

@@ -25,7 +25,7 @@ data class ImageDbItem(
      * comment for particular image
      */
     @ColumnInfo(name = Column.comment)
-    val comment: String? = null,
+    var comment: String,
 
     /**
      * Link of image
