@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
@@ -64,7 +65,10 @@ public class ImageDetailsActivity extends DaggerActivity {
             public void onClick(View view) {
                 if (imageDbItemLiveData.getValue() != null && !TextUtils.isEmpty(mEditText.getText().toString())) {
                     imageDbItemLiveData.getValue().setComment(mEditText.getText().toString());
+
+
                     try {
+                        Toast.makeText(ImageDetailsActivity.this,"Updating comments",Toast.LENGTH_LONG).show();
                         mImageDetailViewModel.updateImageWithComments(imageDbItemLiveData.getValue().getComment(),imageDbItemLiveData.getValue().getId());
                     } catch (Exception e) {
                         System.out.println(e.getMessage());

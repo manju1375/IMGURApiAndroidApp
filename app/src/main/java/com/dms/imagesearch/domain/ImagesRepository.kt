@@ -1,5 +1,6 @@
 package com.dms.imagesearch.domain
 
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import com.dms.imagesearch.api.response.Image
 import com.dms.imagesearch.api.response.ImgData
@@ -13,9 +14,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.runBlocking
 import org.w3c.dom.Comment
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -102,6 +102,7 @@ class DefaultImagesRepository @Inject constructor(
 
 
     override fun getImagesFrmCloud(query: String): Flow<ViewState<List<Image>>> = flow<ViewState<List<Image>>>{
+        emit(ViewState.loading())
         var result:LiveData<List<Image>>
         var imagesRes = mutableListOf<Image>()
         try {

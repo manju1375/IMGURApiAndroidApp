@@ -3,33 +3,29 @@ package com.dms.imagesearch.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
 import android.widget.AutoCompleteTextView
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dms.imagesearch.R
-import com.dms.imagesearch.api.response.Image
 import com.dms.imagesearch.core.utils.*
 import com.dms.imagesearch.ui.ViewState
-import com.dms.imagesearch.ui.adapter.ImagesAdapter
 import com.dms.imagesearch.ui.adapter.ImagesListAdapter
 import com.dms.imagesearch.ui.base.BaseActivity
 import com.dms.imagesearch.ui.viewmodel.ImagesViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.empty_layout.*
+import kotlinx.android.synthetic.main.empty_layout.view.*
 import kotlinx.android.synthetic.main.progress_layout.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.android.synthetic.main.progress_layout.view.*
 
 
 class ImagesListActivity : BaseActivity(), RecyclerViewClickListener {
 
     private val imageListViewModel: ImagesViewModel by viewModels()
-
-    val adapter = ImagesAdapter(this)
-
     val imgAdapter = ImagesListAdapter(this)
 
     /**
@@ -42,6 +38,8 @@ class ImagesListActivity : BaseActivity(), RecyclerViewClickListener {
         // Setting up RecyclerView and adapter
         imagesList.setEmptyView(empty_view)
         imagesList.setProgressView(progress_view)
+
+        imagesList.onlyEmptyView("Enter search query to get results")
 
         imagesList.adapter = imgAdapter
         imagesList.layoutManager = GridLayoutManager(this, 2)
@@ -65,13 +63,20 @@ class ImagesListActivity : BaseActivity(), RecyclerViewClickListener {
 
     private fun loadImgData(query: String) {
 
-            imageListViewModel.getImagesFrmCloud(query).observeNotNull(this) { state ->
-                when (state) {
-                    is ViewState.Success -> imgAdapter.submitList(state.data)
-                    is ViewState.Loading -> imagesList.showLoading()
-                    is ViewState.Error -> toast("Something went wrong ¯\\_(ツ)_/¯ => ${state.message}")
+        imageListViewModel.getImagesFrmCloud(query).observeNotNull(this) { state ->
+            when (state) {
+                is ViewState.Error -> {imagesList.onlyEmptyView(state.message)}
+                is ViewState.Success -> {
+                    if(state.data.isEmpty()){
+                        imagesList.onlyEmptyView("No Results to display")
+                    }
+                    imgAdapter.submitList(state.data)
+                }
+                is ViewState.Loading -> {
+                    imagesList.onlyEmptyView("Loading...")
                 }
             }
+        }
     }
 
 
@@ -86,8 +91,12 @@ class ImagesListActivity : BaseActivity(), RecyclerViewClickListener {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                loadImgData(query!!)
-                hideKeyboard()
+                try{
+                    loadImgData(query!!)
+                    hideKeyboard()
+                }catch (e:Exception){
+                    imagesList.onlyEmptyView("${e.message}")
+                }
                 return false
             }
 

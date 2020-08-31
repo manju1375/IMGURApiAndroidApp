@@ -19,12 +19,6 @@ class ImagesViewModel @ViewModelInject constructor(
 ) : ViewModel() {
     //private val imagesDb: LiveData<ViewState<List<ImageDbItem>>> = imagesRepository.getImages(searchQuery!!).asLiveData()
 
-    /**
-     * Return images to observeNotNull on the UI.
-     */
-    fun getImages(query:String): LiveData<ViewState<List<ImageDbItem>>> {
-        return imagesRepository.getImages(query).asLiveData()
-    }
 
     /**
      * Return images to observeNotNull on the UI.

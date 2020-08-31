@@ -15,6 +15,20 @@ sealed class ViewState<ResultType> {
     ) : ViewState<ResultType>()
 
     /**
+     * Describes empty state of the UI with
+     * [data] shown
+     */
+     class Empty<ResultType>: ViewState<ResultType>(){
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+            return true
+        }
+
+        override fun hashCode(): Int = javaClass.hashCode()
+    }
+
+    /**
      * Describes loading state of the UI
      */
     class Loading<ResultType> : ViewState<ResultType>() {
@@ -45,6 +59,13 @@ sealed class ViewState<ResultType> {
          * the UI to showing loading.
          */
         fun <ResultType> loading(): ViewState<ResultType> = Loading()
+
+
+        /**
+         * Creates [ViewState] object with [Empty] state to notify
+         * the UI to showing empty view.
+         */
+        fun <ResultType> empty(): ViewState<ResultType> = Empty()
 
         /**
          * Creates [ViewState] object with [Error] state and [message].

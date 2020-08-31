@@ -2,7 +2,7 @@ package com.dms.imagesearch.ui.adapter
 
 /**
  * Describes all the events originated from
- * [ImagesAdapter].
+ * [ImagesListAdapterr].
  */
 sealed class ImagesAdapterEvent {
 

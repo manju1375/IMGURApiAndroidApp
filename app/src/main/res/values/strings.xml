@@ -4,4 +4,5 @@
     <string name="no_results">No Results</string>
     <string name="search">Seach</string>
     <string name="submit">Submit</string>
+    <string name="enter_search">Enter search query to get results</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.dms.imagesearch.ui.widget
 
 import android.content.Context
+import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
@@ -56,7 +57,7 @@ class CompleteRecyclerView @JvmOverloads constructor(
         oldAdapter?.unregisterAdapterDataObserver(mAdapterObserver)
         super.setAdapter(adapter)
         adapter?.registerAdapterDataObserver(mAdapterObserver)
-        refreshState()
+        //refreshState()
     }
 
     private fun refreshState() {
@@ -72,6 +73,17 @@ class CompleteRecyclerView @JvmOverloads constructor(
                 visible()
             }
         }
+    }
+
+    fun onlyEmptyView(msg:String){
+        this.progressView?.gone()
+        this.emptyView?.visible()
+        this.emptyView?.findViewById<TextView>(R.id.empty_title)?.setText(msg)
+    }
+
+    fun onlyProgressView(){
+        this.progressView?.visible()
+        this.emptyView?.gone()
     }
 
     fun setEmptyView(emptyView: View) {
