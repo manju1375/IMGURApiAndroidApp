@@ -54,7 +54,4 @@ abstract class DaggerActivity : AppCompatActivity(),
         showMessage(isConnected)
     }
 
-    private fun toast(msg: String) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-    }
 }

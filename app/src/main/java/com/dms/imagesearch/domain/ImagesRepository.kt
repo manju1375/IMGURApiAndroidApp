@@ -29,8 +29,8 @@ interface ImagesRepository {
     /**
      * Gets the cached  image from database and tries to get
      * fresh  images from web and save into database
-     * if that fails then continues showing cached data.
-     */
+     *
+     *  */
     fun getImages(query: String): Flow<ViewState<List<ImageDbItem>>>
 
     /**
@@ -80,10 +80,6 @@ class DefaultImagesRepository @Inject constructor(
     override suspend fun updateImageWithComments(comment: String,id:String) =
         imagesDao.updateImageItem(comment,id);
 
-
-
-
-
     override suspend fun getImgFromWebservice(query: String): List<Image> {
         var imagesRes = mutableListOf<Image>()
         try {
@@ -99,7 +95,6 @@ class DefaultImagesRepository @Inject constructor(
         }
         return imagesRes
     }
-
 
     override fun getImagesFrmCloud(query: String): Flow<ViewState<List<Image>>> = flow<ViewState<List<Image>>>{
         emit(ViewState.loading())
@@ -122,13 +117,8 @@ class DefaultImagesRepository @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
 
-
-
-
     override suspend fun insertImageItem(imgItm: ImageDbItem)=
         imagesDao.insertImage(imgItm)
-
-
 
     @Module
     @InstallIn(ApplicationComponent::class)

@@ -45,9 +45,6 @@ class ImagesListActivity : BaseActivity(), RecyclerViewClickListener {
         imagesList.layoutManager = GridLayoutManager(this, 2)
 
         initializeRecycler()
-
-        // Update the UI on state change
-
     }
 
     override fun showMessage(isConnected: Boolean) {
@@ -68,7 +65,6 @@ class ImagesListActivity : BaseActivity(), RecyclerViewClickListener {
         imagesList.apply {
             setHasFixedSize(true)
             layoutManager = gridLayoutManager
-            //addOnScrollListener(InfiniteScrollListener({ loadData() }, gridLayoutManager))
         }
     }
 

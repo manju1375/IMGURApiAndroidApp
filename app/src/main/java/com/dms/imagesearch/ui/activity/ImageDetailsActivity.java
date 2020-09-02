@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -22,10 +21,6 @@ import com.dms.imagesearch.core.storage.entity.ImageDbItem;
 import com.dms.imagesearch.ui.base.DaggerActivity;
 import com.dms.imagesearch.ui.viewmodel.ImageDetailViewModel;
 import com.google.android.material.snackbar.Snackbar;
-
-import kotlinx.coroutines.CoroutineScopeKt;
-import kotlinx.coroutines.GlobalScope;
-import kotlinx.coroutines.GlobalScope.*;
 
 
 public class ImageDetailsActivity extends DaggerActivity {
@@ -81,8 +76,6 @@ public class ImageDetailsActivity extends DaggerActivity {
             }
 
         });
-
-
     }
 
     @Override
@@ -95,6 +88,5 @@ public class ImageDetailsActivity extends DaggerActivity {
             } else
                 Snackbar.make(findViewById(R.id.root_view), "You are Offline...", 3000).show();
         }
-
     }
 }

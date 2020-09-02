@@ -8,7 +8,6 @@ import androidx.lifecycle.asLiveData
 import com.dms.imagesearch.core.storage.entity.ImageDbItem
 import com.dms.imagesearch.domain.ImagesRepository
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class ImageDetailViewModel @ViewModelInject constructor(private val mImagesRepository: ImagesRepository) :
