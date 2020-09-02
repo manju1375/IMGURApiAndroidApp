@@ -21,11 +21,11 @@ import com.dms.imagesearch.R;
 import com.dms.imagesearch.core.storage.entity.ImageDbItem;
 import com.dms.imagesearch.ui.base.DaggerActivity;
 import com.dms.imagesearch.ui.viewmodel.ImageDetailViewModel;
+import com.google.android.material.snackbar.Snackbar;
 
 import kotlinx.coroutines.CoroutineScopeKt;
 import kotlinx.coroutines.GlobalScope;
 import kotlinx.coroutines.GlobalScope.*;
-
 
 
 public class ImageDetailsActivity extends DaggerActivity {
@@ -63,21 +63,38 @@ public class ImageDetailsActivity extends DaggerActivity {
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (imageDbItemLiveData.getValue() != null && !TextUtils.isEmpty(mEditText.getText().toString())) {
-                    imageDbItemLiveData.getValue().setComment(mEditText.getText().toString());
+                if (isNetworkConnected()) {
+                    if (imageDbItemLiveData.getValue() != null && !TextUtils.isEmpty(mEditText.getText().toString())) {
+                        imageDbItemLiveData.getValue().setComment(mEditText.getText().toString());
 
 
-                    try {
-                        Toast.makeText(ImageDetailsActivity.this,"Updating comments",Toast.LENGTH_LONG).show();
-                        mImageDetailViewModel.updateImageWithComments(imageDbItemLiveData.getValue().getComment(),imageDbItemLiveData.getValue().getId());
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
+                        try {
+                            Toast.makeText(ImageDetailsActivity.this, "Updating comments", Toast.LENGTH_LONG).show();
+                            mImageDetailViewModel.updateImageWithComments(imageDbItemLiveData.getValue().getComment(), imageDbItemLiveData.getValue().getId());
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
                     }
                 }
+                else
+                    Snackbar.make(findViewById(R.id.root_view), "Please check network connection...", 3000).show();
             }
 
         });
 
+
+    }
+
+    @Override
+    public void showMessage(boolean isConnected) {
+        super.showMessage(isConnected);
+        if (isNetworkStatustoShow()) {
+            if (isConnected) {
+                Snackbar.make(findViewById(R.id.root_view), "You are Online...", 3000).show();
+                setNetworkStatustoShow(false);
+            } else
+                Snackbar.make(findViewById(R.id.root_view), "You are Offline...", 3000).show();
+        }
 
     }
 }
